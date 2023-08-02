@@ -1,0 +1,94 @@
+.card {
+  position: relative;
+
+  width: 80%; /* 280px*/
+  height: 91%; /* 270px*/
+  max-width: 243px;
+
+  border-radius: 20px;
+
+  background: #454545;
+  
+  padding: 5px 10px;
+
+  z-index: 5;
+}
+
+.car_info {
+  position: relative;
+
+  color: white;
+  font-size: 14px;
+
+  width: 100%;
+  margin-top: 5px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  
+  z-index: 5;
+}
+
+.icon, .car_brand {
+  display: none;
+}
+
+.image {
+  position: absolute; 
+  left: -1%; 
+  margin-top: 5px; 
+
+  object-fit: cover;
+
+  width: 102%;
+  height: 80%;
+  max-width: 102%;
+  max-height: 80%;
+
+  max-height: max-content;
+  max-width: max-content;
+
+  opacity: 0.3;
+  
+  z-index: 2; 
+}
+
+@media screen and (max-width: 718px) {
+  .car_info {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 612px) {
+  .card img {
+    margin-top: 4px;
+    width: 140%;
+    max-height: 150px;
+    max-width: 220px;
+  }
+
+  .car_info span, .card hr {
+    display: none;
+  }
+
+  .card {
+    max-height: 150px;
+
+    padding: 5px 10px;
+  }
+
+  .car_info {
+    margin-top: 0px;
+  }
+
+  .car_info p {
+    display: block;
+    font-size: 12px;
+  }
+
+  .icon {
+    display: block;
+  }
+}

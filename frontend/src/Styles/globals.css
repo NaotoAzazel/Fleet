@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background-color: #212121;
+
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 1.2%;
+
+  --secondary: 222.2 47.4% 11.2%;
+  --secondary-foreground: 210 40% 98%;
+
+  --accent: 0 0% 46%;
+  --accent-foreground: 210 40% 98%;
+
+  --muted: 223 47% 11%;
+  --muted-foreground: 215.4 16.3% 56.9%;
+
+  --secondary: 222.2 47.4% 11.2%;
+  --secondary-foreground: 210 40% 98%;
+}
+
+* {
+  font-family: 'Inter';
+  padding: 0;
+  margin: 0;
+  font-style: normal; 
+  font-weight: 500;
+}
+
+@keyframes blurAnimation {
+  0% {
+    filter: blur(20px); /* Начальный размытый вид */
+    opacity: 0; /* Начальная прозрачность */
+  }
+  100% {
+    filter: blur(0); /* Конечный неразмытый вид */
+    opacity: 1; /* Конечная непрозрачность */
+  }
+}
+
+.animate-blur {
+  animation-name: blurAnimation; /* Указываем название анимации */
+  animation-duration: 0.8s; /* Продолжительность анимации (2 секунды в данном случае) */
+}
