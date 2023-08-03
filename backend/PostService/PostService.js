@@ -17,6 +17,31 @@ class PostService {
     return post;
   }
 
+  async getPostsByLimitAndPage(limit, page) {
+    const posts = await this.getAll();
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = {};
+
+    if(endIndex < posts.length) {
+      results.next = {
+        page: page + 1,
+        limit
+      };
+    };
+
+    if(startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit
+      };
+    };
+    
+    results.results = posts.slice(startIndex, endIndex);
+    return results;
+  }
+
   async update(post) {
     if(!post._id) throw new Error("Не указан ID");
     const updatedPost = await Post.findByIdAndUpdate(post._id, post, { new: true });

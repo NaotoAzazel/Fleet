@@ -12,8 +12,15 @@ class PostController {
 
   async getAll(req, res) {
     try {
-      const posts = await PostService.getAll();
-      return res.json(posts);
+      const { limit, page } = req.query;
+
+      if(!limit || !page) {
+        const allPosts = await PostService.getAll();
+        return res.json(allPosts);
+      }
+
+      const slicedPosts = await PostService.getPostsByLimitAndPage(parseInt(limit), parseInt(page));
+      return res.json(slicedPosts);
     } catch(err) {
       res.status(500).json(err.message);
     }
