@@ -1,12 +1,11 @@
 import Router from "express";
-import Post from "./Schema/Post.js";
+import PostController from "../PostController/PostController.js";
 
 const router = new Router();
 
-router.post("/transport", async(req, res) => {
-  const { name, takeBy, plate, color, image } = req.body;
-  const post = await Post.create({ name, takeBy, plate, color, image });
-  res.status(200).json(post);
-});
-router.get("/transports");
-router.get("/transport/:id");
+router.post("/transport", PostController.create);
+router.get("/transports", PostController.getAll);
+router.get("/transport/:id", PostController.getOne);
+router.put("/transport/", PostController.update);
+
+export default router;
