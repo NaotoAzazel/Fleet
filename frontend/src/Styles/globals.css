@@ -41,6 +41,6 @@
 }
 
 .animate-blur {
-  animation-name: blurAnimation; /* Указываем название анимации */
-  animation-duration: 0.8s; /* Продолжительность анимации (2 секунды в данном случае) */
+  animation-name: blurAnimation; 
+  animation-duration: 0.8s; 
 }

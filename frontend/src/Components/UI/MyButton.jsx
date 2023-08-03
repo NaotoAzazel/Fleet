@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority"
-import { cn } from "../utils/utils.js";
+import { cn } from "../../utils/utils.js";
 import { Link } from "react-router-dom";
 
 const buttonVariants = cva(

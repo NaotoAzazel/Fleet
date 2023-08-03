@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { routes } from "../Router/Router.js"
+import { routes, publicRoutes, privateRoutes } from "../Router/Router.js"
 import PageNotFound from "./Pages/PageNotFound.jsx";
 import { Helmet } from "react-helmet";
 
