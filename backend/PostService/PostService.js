@@ -24,24 +24,7 @@ class PostService {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const results = {};
-
-    if(endIndex < posts.length) {
-      results.next = {
-        page: page + 1,
-        limit
-      };
-    };
-
-    if(startIndex > 0) {
-      results.previous = {
-        page: page - 1,
-        limit
-      };
-    };
-    
-    results.results = posts.slice(startIndex, endIndex);
-    return results;
+    return posts.slice(startIndex, endIndex);;
   }
 
   async update(post) {

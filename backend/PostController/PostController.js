@@ -13,9 +13,12 @@ class PostController {
   async getAll(req, res) {
     try {
       const { limit, page } = req.query;
+      const allPosts = await PostService.getAll();
+      const totalCount = Object.keys(allPosts).length;
+
+      res.set("x-total-count", totalCount.toString());
 
       if(!limit || !page) {
-        const allPosts = await PostService.getAll();
         return res.json(allPosts);
       }
 
