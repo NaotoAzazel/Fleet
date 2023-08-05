@@ -47,9 +47,9 @@ function Header() {
         </div>
         <nav>
           { Object.keys(user).length !== 0 ? (
-            <MyButton variant="secondary" onClick={() => handleLogout()}>Выйти из аккаунта</MyButton>
+            <MyButton onClick={() => handleLogout()}>Выйти из аккаунта</MyButton>
           ) : (
-            <MyButton variant="secondary" href="/auth">Авторизация</MyButton>
+            <MyButton href="/auth">Авторизация</MyButton>
           )}
         </nav>
       </div>
