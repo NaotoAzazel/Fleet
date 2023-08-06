@@ -23,7 +23,7 @@ function Modal({ active, setActive, children }) {
         className={`fixed top-0 left-0 w-screen h-screen backdrop-blur bg-opacity-40 flex items-center justify-center`}
         onClick={() => setActive(false)}
       >
-        <div className={`p-[20px] rounded-lg bg-white border border-borderColor`} onClick={e => e.stopPropagation()}>
+        <div className={`p-[20px] rounded-lg bg-white`} onClick={e => e.stopPropagation()}>
           {children}
         </div>
       </div>,

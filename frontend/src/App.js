@@ -25,9 +25,7 @@ function App() {
 
       setLoading(false);
     }
-    if(!loading) {
-      console.log("User auth data loaded");
-    }
+
     getUserData();
   }, []);
 

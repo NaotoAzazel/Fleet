@@ -9,9 +9,8 @@ import { getPageCount, getPagesArray } from "../../utils/utils.js";
 import SkeletonCard from '../UI/SkeletonCard';
 import Modal from '../UI/Modal.jsx';
 import FormInput from '../UI/FormInput.jsx';
-import { Formik, Field, Form } from "formik";
-// import { useForm } from "react-hook-form";
-// import * as Yup from "yup";
+import { Formik, Form } from "formik";
+import validationFields from "../../utils/validation.js"
 
 function TransportList() {
   const navigate = useNavigate();
@@ -25,6 +24,7 @@ function TransportList() {
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page) => {
     const response = await PostService.getAll(limit, page);
+    console.log("Отработал useMemo");
 
     setTransportData(response.data);
     const totalCount = response.headers["x-total-count"];
@@ -125,18 +125,61 @@ function TransportList() {
               name: "",
               color: "",
               plate: "",
-              category: ""
+              category: "",
+              file: ""
             }}
+            validationSchema={validationFields}
             onSubmit={async(values) => {
               await new Promise((r) => setTimeout(r, 500));
-              alert(JSON.stringify(values, null, 2))
+              console.log(JSON.stringify(values, null, 2))
             }}
           >
-            <Form>
-              <label htmlFor="firstName">First Name</label>
-              <Field id="firstName" name="firstName" placeholder="Jane" />
-              <MyButton type="submit" variant="secondary" className="w-full">Добавить</MyButton>
-            </Form>
+            {({ errors, touched, setFieldValue }) => (
+              <Form autoComplete="off">
+                <FormInput 
+                  error={errors.name}
+                  touched={touched.name}
+                  label="Название"
+                  id="name"
+                  placeHolder="Lamborghini"
+                />
+
+                <FormInput 
+                  error={errors.color}
+                  touched={touched.color}
+                  label="Цвет"
+                  id="color"
+                  placeHolder="Red"
+                /> 
+
+                <FormInput 
+                  error={errors.plate}
+                  touched={touched.plate}
+                  label="Номера"
+                  id="plate"
+                  placeHolder="XX000XXX"
+                />  
+
+                <FormInput 
+                  error={errors.category}
+                  touched={touched.category}
+                  label="Категория"
+                  id="category"
+                  placeHolder="Легковушка"
+                />  
+                
+                <div className="flex flex-col mb-4">
+                  <input 
+                    type="file" 
+                    onChange={(e) => {
+                      setFieldValue("file", e.target.files[0])
+                    }}
+                  />
+                </div>
+
+                <MyButton type="submit" variant="secondary" className="w-full">Добавить</MyButton>
+              </Form>
+            )}
           </Formik>
         </Modal>
       </selection>
