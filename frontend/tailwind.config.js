@@ -7,6 +7,7 @@ module.exports = {
         background: "#212121",
         cardBackground: "#454545",
         borderColor: "#767676",
+        modalBackground: "rgb(39, 39, 42)",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

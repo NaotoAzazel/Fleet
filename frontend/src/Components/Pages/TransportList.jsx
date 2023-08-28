@@ -8,9 +8,6 @@ import { useFetching } from '../../hooks/useFetching';
 import { getPageCount, getPagesArray } from "../../utils/utils.js";
 import SkeletonCard from '../UI/SkeletonCard';
 import Modal from '../UI/Modal.jsx';
-import FormInput from '../UI/FormInput.jsx';
-import { Formik, Form } from "formik";
-import validationFields from "../../utils/validation.js"
 
 function TransportList() {
   const navigate = useNavigate();
@@ -24,7 +21,6 @@ function TransportList() {
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page) => {
     const response = await PostService.getAll(limit, page);
-    console.log("Отработал useMemo");
 
     setTransportData(response.data);
     const totalCount = response.headers["x-total-count"];
@@ -64,7 +60,9 @@ function TransportList() {
   return (
     <main className="flex-1 min-h-screen text-white">
       <selection className="grid items-center gap-8 pb-8 pt-6 md:py-8 container">
-        <h1 className="text-2xl leading-[1.1] tracking-normal font-bold font-manrope md:text-4xl lg:text-3xl">Список доступного транспорта</h1>
+        <h1 className="text-2xl leading-[1.1] tracking-normal font-bold font-manrope md:text-4xl lg:text-3xl">
+          Список доступного транспорта
+        </h1>
         <div className="flex flex-col space-y-6">
           <div className="flex items-center space-x-2">
             <MyButton size="sm">Сортировка</MyButton>
@@ -120,67 +118,34 @@ function TransportList() {
         </div>
 
         <Modal active={modalActive} setActive={setModalActive}>
-          <Formik
-            initialValues={{
-              name: "",
-              color: "",
-              plate: "",
-              category: "",
-              file: ""
-            }}
-            validationSchema={validationFields}
-            onSubmit={async(values) => {
-              await new Promise((r) => setTimeout(r, 500));
-              console.log(JSON.stringify(values, null, 2))
-            }}
-          >
-            {({ errors, touched, setFieldValue }) => (
-              <Form autoComplete="off">
-                <FormInput 
-                  error={errors.name}
-                  touched={touched.name}
-                  label="Название"
-                  id="name"
-                  placeHolder="Lamborghini"
-                />
+          <div className="flex justify-between">
+            <h1 className="text-white text-2xl font-bold font-manrope">Добавить транспорт</h1>
+            <button className="text-white self-center" onClick={() => setModalActive(false)} >X</button>
+          </div>
 
-                <FormInput 
-                  error={errors.color}
-                  touched={touched.color}
-                  label="Цвет"
-                  id="color"
-                  placeHolder="Red"
-                /> 
+          <div className="flex items-center space-x-2 mt-4">
+            {/** Добавить выпадающий список для кнопок */}
+            <MyButton size="sm">Выберите категорию</MyButton>
+            <MyButton size="sm">Выберите цвет</MyButton>
+          </div>
+          
+          <div className="flex flex-col text-white mt-4 space-y-4">
+            <input 
+              type="text"
+              className="bg-transparent p-2 rounded-[10px] border border-borderColor"
+              placeholder="Введите имя"
+            />
 
-                <FormInput 
-                  error={errors.plate}
-                  touched={touched.plate}
-                  label="Номера"
-                  id="plate"
-                  placeHolder="XX000XXX"
-                />  
+            <input 
+              type="text"
+              className="bg-transparent p-2 rounded-[10px] border border-borderColor"
+              placeholder="Введите номер"
+            />
 
-                <FormInput 
-                  error={errors.category}
-                  touched={touched.category}
-                  label="Категория"
-                  id="category"
-                  placeHolder="Легковушка"
-                />  
-                
-                <div className="flex flex-col mb-4">
-                  <input 
-                    type="file" 
-                    onChange={(e) => {
-                      setFieldValue("file", e.target.files[0])
-                    }}
-                  />
-                </div>
-
-                <MyButton type="submit" variant="secondary" className="w-full">Добавить</MyButton>
-              </Form>
-            )}
-          </Formik>
+            <input type="file" className="max-w-[300px]"/>
+          </div>
+          
+          <MyButton size="sm" className="mt-4 w-full">Добавить</MyButton>
         </Modal>
       </selection>
     </main>

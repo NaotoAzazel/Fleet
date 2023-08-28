@@ -32,7 +32,13 @@ function AuthPage() {
       <div className="min-h-screen text-white relative flex items-center container">
         <div className="mx-auto sm:p-6 grid place-items-center gap-5 p-3 bg-cardBackground rounded-[10px] border border-borderColor">
           <div className="overflow-hidden">
-            <img src={authIcon} width="64" height="64" alt="Auth icon" className="mx-auto animate-blur rounded-lg" />
+            <img 
+              src={authIcon} 
+              width="64" 
+              height="64" 
+              alt="Auth icon" 
+              className="mx-auto animate-blur duration-700" 
+            />
           </div>
           <h1 className="font-bold text-3xl tracking-tight mx-auto">Вход в аккаунт</h1>
           <div className="space-x-4 mt-3">
