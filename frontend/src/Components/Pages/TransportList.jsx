@@ -1,13 +1,14 @@
 import { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../context';
 import { useNavigate } from 'react-router-dom';
-import { MyButton } from "../UI/MyButton.jsx"; 
-import Card from "../UI/Card.jsx";
+import { Button } from "../UI/Button.jsx"; 
+import Card from "../cards/ProductCard.jsx";
 import PostService from "../../API/PostService.js";
 import { useFetching } from '../../hooks/useFetching';
 import { getPageCount, getPagesArray } from "../../utils/utils.js";
 import SkeletonCard from '../UI/SkeletonCard';
 import Modal from '../UI/Modal.jsx';
+import DropDown from '../UI/DropDown.jsx';
 
 function TransportList() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function TransportList() {
   const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const [modalActive, setModalActive] = useState(false);
+  const [dropDownActive, setDropDownActive] = useState(false);
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page) => {
     const response = await PostService.getAll(limit, page);
@@ -64,15 +66,28 @@ function TransportList() {
           Список доступного транспорта
         </h1>
         <div className="flex flex-col space-y-6">
-          <div className="flex items-center space-x-2">
-            <MyButton size="sm">Сортировка</MyButton>
+          <div className="flex items-center">
+            <Button 
+              size="sm"
+              onClick={() => setDropDownActive(!dropDownActive)}
+            >
+              Сортировка
+            </Button>
+            
+            <DropDown 
+              active={dropDownActive} 
+              setActive={setDropDownActive} 
+              options={["По названию", "В алфавитном порядке", "Легковый", "Мотоциклы", "Джипы"]} 
+            />
+
             {adminsID.has(userID) && (
-              <MyButton 
+              <Button 
                 size="sm"
                 onClick={() => setModalActive(true)}
+                className="ml-2"
               >
                 Добавить траспорт
-              </MyButton>
+              </Button>
             )}
           </div>
 
@@ -103,7 +118,7 @@ function TransportList() {
           <div className="flex flex-wrap items-center justify-center gap-2">
             {!isPostsLoading && (
               pagesArray.map(pageNumber => 
-                <MyButton 
+                <Button 
                   onClick={() => changePage(pageNumber)}
                   variant={page === pageNumber ? "default" : "outline"}
                   size="sm" 
@@ -111,7 +126,7 @@ function TransportList() {
                   className="h-8 w-8"
                 >
                   {pageNumber}
-                </MyButton>  
+                </Button>  
               )
             )}
           </div>
@@ -125,8 +140,8 @@ function TransportList() {
 
           <div className="flex items-center space-x-2 mt-4">
             {/** Добавить выпадающий список для кнопок */}
-            <MyButton size="sm">Выберите категорию</MyButton>
-            <MyButton size="sm">Выберите цвет</MyButton>
+            <Button size="sm">Выберите категорию</Button>
+            <Button size="sm">Выберите цвет</Button>
           </div>
           
           <div className="flex flex-col text-white mt-4 space-y-4">
@@ -145,7 +160,7 @@ function TransportList() {
             <input type="file" className="max-w-[300px]"/>
           </div>
           
-          <MyButton size="sm" className="mt-4 w-full">Добавить</MyButton>
+          <Button size="sm" className="mt-4 w-full">Добавить</Button>
         </Modal>
       </selection>
     </main>

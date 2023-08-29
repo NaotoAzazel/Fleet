@@ -1,4 +1,4 @@
-import { MyButton } from '../UI/MyButton.jsx';
+import { Button } from '../UI/Button.jsx';
 import { Element } from "react-scroll";
 
 function MainPage() {
@@ -10,8 +10,8 @@ function MainPage() {
             Пример приложения, построенного с использованием React 18
           </h1>
           <div className="space-x-4">
-            <MyButton href="/auth">Авторизация</MyButton>
-            <MyButton variant="outline" href="/asd">GitHub</MyButton>
+            <Button href="/auth">Авторизация</Button>
+            <Button variant="outline" href="/asd">GitHub</Button>
           </div>
         </div>
       </selection>

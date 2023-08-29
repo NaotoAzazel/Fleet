@@ -31,10 +31,10 @@ const buttonVariants = cva(
   }
 )
 
-function MyButton({ className, children, size, variant, href, ...props }) {
+function Button({ className, children, size, variant, href, ...props }) {
   return href 
     ? <Link to={href} className={cn(buttonVariants({ variant, size, className }))}>{children}</Link>
     : <button className={cn(buttonVariants({ variant, size, className }))} {...props}>{children}</button>
 }
 
-export { MyButton, buttonVariants };
+export { Button, buttonVariants };

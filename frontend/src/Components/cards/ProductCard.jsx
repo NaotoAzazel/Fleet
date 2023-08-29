@@ -1,7 +1,7 @@
-import { MyButton } from "./MyButton.jsx";
+import { Button } from "../UI/Button.jsx";
 import "../../Styles/globals.css";
 
-function Card({ image, title, buttonText }) {
+function ProductCard({ image, title, buttonText }) {
   return (
     <div className="border border-borderColor overflow-hidden rounded-[10px]">
       <div className="flex flex-col border-borderColor p-0">
@@ -26,12 +26,12 @@ function Card({ image, title, buttonText }) {
 
       <div className="flex items-center p-4">
         <div className="flex w-full flex-col items-center gap-2 sm:flex-row sm:justify-between">
-          <MyButton variant="outline" size="sm" className="w-full">Подробнее</MyButton>
-          <MyButton size="sm" className={`w-full ${buttonText === "Недоступна" ? "cursor-not-allowed" : ""}`}>{buttonText}</MyButton>
+          <Button variant="outline" size="sm" className="w-full">Подробнее</Button>
+          <Button size="sm" className={`w-full ${buttonText === "Недоступна" ? "cursor-not-allowed" : ""}`}>{buttonText}</Button>
         </div>
       </div>
     </div>
   )
 }
 
-export default Card
+export default ProductCard

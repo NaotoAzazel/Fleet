@@ -1,4 +1,4 @@
-import { MyButton } from "../UI/MyButton.jsx";
+import { Button } from "../UI/Button.jsx";
 import { Link } from "react-scroll";
 import { createClient } from "@supabase/supabase-js";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -29,27 +29,27 @@ function Header() {
     <header className="container z-40 bg-transparent">
       <div className="flex h-20 items-center justify-between py-6">
         <div className="flex md:gap-4">
-          <MyButton variant="hidden" href="/" className="text-xl">Fleet</MyButton>
+          <Button variant="hidden" href="/" className="text-xl">Fleet</Button>
           <nav className="gap-4 md:flex">
             {isHomePage && (
               <Link to="technologies" smooth={true} duration={500}>
-                <MyButton variant="hidden" className="text-muted-foreground">
+                <Button variant="hidden" className="text-muted-foreground">
                   Технологии
-                </MyButton>
+                </Button>
               </Link>
             )}
             { Object.keys(user).length > 0 && (
-              <MyButton variant="hidden" href="/transport" className="text-muted-foreground">
+              <Button variant="hidden" href="/transport" className="text-muted-foreground">
                 Список транспорта
-              </MyButton>
+              </Button>
             )}
           </nav>
         </div>
         <nav>
           { Object.keys(user).length !== 0 ? (
-            <MyButton onClick={() => handleLogout()}>Выйти из аккаунта</MyButton>
+            <Button onClick={() => handleLogout()}>Выйти из аккаунта</Button>
           ) : (
-            <MyButton href="/auth">Авторизация</MyButton>
+            <Button href="/auth">Авторизация</Button>
           )}
         </nav>
       </div>
