@@ -67,14 +67,8 @@ function TransportList() {
         </h1>
         <div className="flex flex-col space-y-6">
           <div className="flex items-center">
-            <Button 
-              size="sm"
-              onClick={() => setDropDownActive(!dropDownActive)}
-            >
-              Сортировка
-            </Button>
-            
             <DropDown 
+              buttonText="В алфавитном порядке"
               active={dropDownActive} 
               setActive={setDropDownActive} 
               options={["По названию", "В алфавитном порядке", "Легковый", "Мотоциклы", "Джипы"]} 
