@@ -31,7 +31,7 @@ function DropDown({ buttonText, options, active, setActive }) {
 
   return (
     <div className="font-medium items-center">
-      <Button className="max-w-[120px]" size="sm" onClick={handleButtonClick}>
+      <Button className="max-w-[140px]" size="sm" onClick={handleButtonClick}>
         <p className="truncate">{selectedValue ? selectedValue : buttonText}</p>
         <FontAwesomeIcon icon={active ? faChevronUp : faChevronDown} className="ml-2" />
       </Button>
