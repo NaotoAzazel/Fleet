@@ -19,7 +19,6 @@ function TransportList() {
   const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const [modalActive, setModalActive] = useState(false);
-  const [dropDownActive, setDropDownActive] = useState(false);
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page) => {
     const response = await PostService.getAll(limit, page);
@@ -69,8 +68,6 @@ function TransportList() {
           <div className="flex items-center">
             <DropDown 
               buttonText="Сортировка"
-              active={dropDownActive} 
-              setActive={setDropDownActive} 
               options={["По названию", "В алфавитном порядке", "Легковый", "Мотоциклы", "Джипы"]} 
             />
 
@@ -133,9 +130,8 @@ function TransportList() {
           </div>
 
           <div className="flex items-center space-x-2 mt-4">
-            {/** Добавить выпадающий список для кнопок */}
-            <Button size="sm">Выберите категорию</Button>
-            <Button size="sm">Выберите цвет</Button>
+            <DropDown buttonText="Категория" />
+            <DropDown buttonText="Цвет" />
           </div>
           
           <div className="flex flex-col text-white mt-4 space-y-4">
