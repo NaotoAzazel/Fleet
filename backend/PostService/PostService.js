@@ -32,6 +32,28 @@ class PostService {
     const updatedPost = await Post.findByIdAndUpdate(post._id, post, { new: true });
     return updatedPost;
   }
+
+  async getCategories() {
+    const posts = await this.getAll();
+    const categories = new Set();
+
+    posts.map(({ category }) => {
+      categories.add(category);
+    });
+
+    return categories;
+  }
+
+  async getColors() {
+    const posts = await this.getAll();
+    const colors = new Set();
+
+    posts.map(({ color }) => {
+      colors.add(color);
+    });
+
+    return colors;
+  }
 }
 
 export default new PostService();

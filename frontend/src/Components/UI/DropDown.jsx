@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import "../../Styles/globals.css";
 
-function DropDown({ buttonText, options, active, setActive }) {
+function DropDown({ buttonText, options }) {
   const [selectedValue, setSelectedValue] = useState("");
+  const [active, setActive] = useState(false);
   const menuRef = useRef(null); 
 
   const handleButtonClick = (event) => {
@@ -14,8 +15,6 @@ function DropDown({ buttonText, options, active, setActive }) {
   };
 
   useEffect(() => {
-    console.log("click")
-    // Обработчик события для закрытия меню при клике вне него
     const handleDocumentClick = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setActive(false);
