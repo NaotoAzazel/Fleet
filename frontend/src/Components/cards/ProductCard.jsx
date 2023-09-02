@@ -10,7 +10,6 @@ function ProductCard({ image, title, buttonText }) {
             <div className="flex w-full h-full items-center justify-center bg-secondary">
               <img 
                 src={image} 
-                alt="transport image" 
                 className="absolute h-full w-full inset-0 border-borderColor object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 loading="lazy"

@@ -4,8 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import "../../Styles/globals.css";
 
-function DropDown({ buttonText, options }) {
-  const [selectedValue, setSelectedValue] = useState("");
+function DropDown({ buttonText, options, selectValue, onSelectChange }) {
   const [active, setActive] = useState(false);
   const menuRef = useRef(null); 
 
@@ -31,21 +30,22 @@ function DropDown({ buttonText, options }) {
   return (
     <div className="font-medium items-center">
       <Button className="max-w-[140px]" size="sm" onClick={handleButtonClick}>
-        <p className="truncate">{selectedValue ? selectedValue : buttonText}</p>
+        <p className="truncate">{selectValue ? selectValue : buttonText}</p>
         <FontAwesomeIcon icon={active ? faChevronUp : faChevronDown} className="ml-2" />
       </Button>
 
       <ul 
-        className={`bg-modalBackground mt-2 z-10 p-2 w-56 shadow-lg rounded-[10px] absolute border border-borderColor 
+        className={`bg-modalBackground mt-2 z-10 p-2 shadow-lg rounded-[10px] absolute border border-borderColor 
           ${!active && "hidden"}`}
         ref={menuRef}  
       >
+        {!options.length && <p className="text-white text-sm">В меню нет полей</p>}
         {options?.map((option) => (
           <li 
-            className={`p-3 rounded-[10px] cursor-pointer text-sm hover:bg-background ${selectedValue === option && "font-bold"}`}
+            className={`p-3 rounded-[10px] text-white cursor-pointer text-sm hover:bg-background ${selectValue === option && "font-bold"}`}
             key={option}
             onClick={() => { 
-              setSelectedValue(option)
+              onSelectChange(option)
               setActive(false)
             }}
           >

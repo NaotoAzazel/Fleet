@@ -1,7 +1,7 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./Components/AppRouter";
 import "./Styles/globals.css"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { AuthContext } from "./Components/context/index.js";
 import Header from "./Components/UI/Header.jsx";
 import { createClient } from "@supabase/supabase-js";
@@ -15,24 +15,28 @@ function App() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function getUserData() {
-      await supabase.auth.getUser().then(value => {
-        if(value?.data.user) {
-          setUser(value.data.user);
-        }
-      });
+  const handleUserData = useCallback(async() => {
+    await supabase.auth.getUser().then(value => {
+      if(value?.data.user) {
+        setUser(value.data.user);
+      }
+    });
 
-      setLoading(false);
-    }
-
-    getUserData();
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    handleUserData();
+  }, [handleUserData]);
+
+  const authContext = useMemo(() => {
+    return { user, setUser, loading };
+  }, [user, loading]);
 
   if(loading) return null;
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={authContext}>
       <BrowserRouter>
         <Header />
         <AppRouter />
