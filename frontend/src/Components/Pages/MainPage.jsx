@@ -1,5 +1,6 @@
 import { Button } from '../UI/Button.jsx';
 import { Element } from "react-scroll";
+import InformationCard from '../cards/InformationCard.jsx';
 
 function MainPage() {
   return (
@@ -24,49 +25,25 @@ function MainPage() {
         </Element>
 
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-          <div className="relative overflow-hidden rounded-[10px] border border-borderColor p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <div className="space-y-2">
-                <h3 className="font-bold font-manrope">React 18</h3>
-                <p className="text-sm text-muted-foreground">
-                  Приложения, маршрутизация, макеты, загрузка пользовательского интерфейса и API.
-                </p>
-              </div>
-            </div>
-          </div>
+          <InformationCard 
+            title="React 18" 
+            text="Приложения, маршрутизация, макеты, загрузка пользовательского интерфейса и API." 
+          />
 
-          <div className="relative overflow-hidden rounded-[10px] border border-borderColor p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <div className="space-y-2">
-                <h3 className="font-bold font-manrope">Database</h3>
-                <p className="text-sm text-muted-foreground">
-                  ORM с использованием MongoDB с Mongoose и развернутая на MongoDB Atlas.
-                </p>
-              </div>
-            </div>
-          </div>
+          <InformationCard 
+            title="Database"
+            text="ORM с использованием MongoDB с Mongoose и развернутая на MongoDB Atlas."
+          />
+          
+          <InformationCard 
+            title="Components"
+            text="Компоненты интерфейса стилизированы при помощи Tailwind CSS."
+          />
 
-          <div className="relative overflow-hidden rounded-[10px] border border-borderColor p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <div className="space-y-2">
-                <h3 className="font-bold font-manrope">Components</h3>
-                <p className="text-sm text-muted-foreground">
-                  Компоненты интерфейса стилизированы при помощи Tailwind CSS. 
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-[10px] border border-borderColor p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <div className="space-y-2">
-                <h3 className="font-bold font-manrope">Authentication</h3>
-                <p className="text-sm text-muted-foreground">
-                  Аутентификация с использованием Supabase и middlewares.
-                </p>
-              </div>
-            </div>
-          </div>
+          <InformationCard 
+            title="Authentication"
+            text="Аутентификация с использованием Supabase и middlewares."
+          />
         </div>
       </selection>
     </main>
