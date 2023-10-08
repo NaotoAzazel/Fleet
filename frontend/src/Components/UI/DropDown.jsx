@@ -30,7 +30,7 @@ function DropDown({ buttonText, options, selectValue, onSelectChange }) {
   return (
     <div className="font-medium items-center">
       <Button className="max-w-[140px]" size="sm" onClick={handleButtonClick}>
-        <p className="truncate">{selectValue ? selectValue : buttonText}</p>
+        <p className="truncate">{buttonText}</p>
         <FontAwesomeIcon icon={active ? faChevronUp : faChevronDown} className="ml-2" />
       </Button>
 
@@ -42,7 +42,9 @@ function DropDown({ buttonText, options, selectValue, onSelectChange }) {
         {!options.length && <p className="text-white text-sm">В меню нет полей</p>}
         {options?.map((option) => (
           <li 
-            className={`p-3 rounded-[10px] text-white cursor-pointer text-sm hover:bg-background ${selectValue === option && "font-bold"}`}
+            className={`p-3 pr-8 rounded-[10px] text-white cursor-pointer text-sm hover:bg-background 
+              ${selectValue === option && "font-bold"}
+            `}
             key={option}
             onClick={() => { 
               onSelectChange(option)
