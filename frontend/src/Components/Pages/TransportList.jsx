@@ -10,6 +10,7 @@ import SkeletonCard from '../cards/SkeletonCard';
 import Modal from '../UI/Modal.jsx';
 import DropDown from '../UI/DropDown.jsx';
 import Input from '../UI/Input.jsx';
+import PostsNotFound from '../cards/PostsNotFound.jsx';
 
 const MemorizedPosts = memo(Card);
 
@@ -54,12 +55,12 @@ function TransportList() {
     ) 
   })
 
-  const [fetchColors] = useFetching(async() => {
+  const [fetchColors, isColorsLoading] = useFetching(async() => {
     const colors = await PostService.getColors();
     setColors(colors.data);
   });
   
-  const [fetchCategories] = useFetching(async() => {
+  const [fetchCategories, isCategoriesLoading] = useFetching(async() => {
     const categories = await PostService.getCategories();
     setCategories(categories.data);
   });
@@ -143,8 +144,14 @@ function TransportList() {
             </h1>
           )}
 
+          {!posts.length && !isPostsLoading && (
+            <div className="flex items-center justify-center h-full">
+              <PostsNotFound />
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {isPostsLoading 
+            {isPostsLoading && isColorsLoading && isCategoriesLoading && posts.length
               ? <SkeletonCard cards={8}/>
               : <>{memorizedPosts}</>
             }
@@ -190,14 +197,27 @@ function TransportList() {
           <div className="flex flex-col text-white mt-4 space-y-4">
             <Input 
               type="text"
-              placeholder="Введите имя"
+              placeholder="Введите категорию"
+              onChange={e => setCategory(e.target.value)}
+              value={category}
+            />
+
+            <Input 
+              type="text"
+              placeholder="Введите цвет"
+              onChange={e => setColor(e.target.value)}
+              value={color}
+            />
+
+            <Input 
+              type="text"
+              placeholder="Введите название"
               onChange={e => setName(e.target.value)}
               value={name}
             />
 
-            <input 
+            <Input 
               type="text"
-              className="bg-transparent p-2 rounded-[10px] border border-borderColor"
               placeholder="Введите номер"
               onChange={e => setPlate(e.target.value)}
               value={plate}
@@ -223,4 +243,4 @@ function TransportList() {
   )
 }
 
-export default TransportList
+export default TransportList;
