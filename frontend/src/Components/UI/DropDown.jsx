@@ -35,14 +35,14 @@ function DropDown({ buttonText, options, selectValue, onSelectChange }) {
       </Button>
 
       <ul 
-        className={`bg-modalBackground mt-2 z-10 p-2 shadow-lg rounded-[10px] absolute border border-borderColor 
-          ${!active && "hidden"}`}
+        className={`bg-background mt-2 z-10 p-2 shadow-lg rounded-[10px] absolute border 
+        border-borderColor ${!active && "hidden"}`}
         ref={menuRef}  
       >
         {!options.length && <p className="text-white text-sm">В меню нет полей</p>}
         {options?.map((option) => (
           <li 
-            className={`p-3 pr-8 rounded-[10px] text-white cursor-pointer text-sm hover:bg-background 
+            className={`p-3 pr-8 rounded-[10px] text-white cursor-pointer text-sm hover:bg-accent 
               ${selectValue === option && "font-bold"}
             `}
             key={option}

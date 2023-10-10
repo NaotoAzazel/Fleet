@@ -4,7 +4,7 @@ import "../../Styles/globals.css"
 
 function ErrorCard() {
   return (
-    <div className="mx-auto sm:p-6 grid place-items-center gap-5 p-3 bg-modalBackground rounded-[10px] border border-borderColor">
+    <div className="mx-auto sm:p-6 grid place-items-center gap-5 p-3 rounded-[10px] border border-borderColor">
       <div className="overflow-hidden rounded-lg place-items-center">
         <img 
           src={Icon404} 

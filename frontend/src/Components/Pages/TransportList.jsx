@@ -113,7 +113,7 @@ function TransportList() {
   }
 
   return (
-    <main className="flex-1 min-h-screen text-white">
+    <main className="flex-1 min-h-screen text-white bg-background">
       <selection className="grid items-center gap-8 pb-8 pt-6 md:py-8 container">
         <h1 className="text-2xl leading-[1.1] tracking-normal font-bold font-manrope md:text-4xl lg:text-3xl">
           Список доступного транспорта
@@ -144,7 +144,7 @@ function TransportList() {
             </h1>
           )}
 
-          {!posts.length && !isPostsLoading && (
+          {!posts.length && !isPostsLoading && !postError && (
             <div className="flex items-center justify-center h-full">
               <PostsNotFound />
             </div>
@@ -195,19 +195,23 @@ function TransportList() {
           </div>
           
           <div className="flex flex-col text-white mt-4 space-y-4">
-            <Input 
-              type="text"
-              placeholder="Введите категорию"
-              onChange={e => setCategory(e.target.value)}
-              value={category}
-            />
-
-            <Input 
-              type="text"
-              placeholder="Введите цвет"
-              onChange={e => setColor(e.target.value)}
-              value={color}
-            />
+            <div className="flex space-x-2 w-full">
+              <Input 
+                type="text"
+                placeholder="Категория"
+                onChange={e => setCategory(e.target.value)}
+                value={category}
+                styles="w-1/2"
+              />
+            
+              <Input 
+                type="text"
+                placeholder="Цвет"
+                onChange={e => setColor(e.target.value)}
+                value={color}
+                styles="w-1/2"
+              />
+            </div>
 
             <Input 
               type="text"

@@ -26,32 +26,34 @@ function Header() {
   };
 
   return (
-    <header className="container z-40 bg-transparent">
-      <div className="flex h-20 items-center justify-between py-6">
-        <div className="flex md:gap-4">
-          <Button variant="hidden" href="/" className="text-xl">Fleet</Button>
-          <nav className="gap-4 md:flex">
-            {isHomePage && (
-              <Link to="technologies" smooth={true} duration={500}>
-                <Button variant="hidden" className="text-muted-foreground">
-                  Технологии
+    <header className="w-full border-b border-borderColor bg-background">
+      <div className="container z-40">
+        <div className="flex h-20 items-center justify-between py-6">
+          <div className="flex md:gap-4">
+            <Button variant="hidden" href="/" className="text-xl">Fleet</Button>
+            <nav className="gap-4 md:flex">
+              {isHomePage && (
+                <Link to="technologies" smooth={true} duration={500}>
+                  <Button variant="hidden" className="text-muted-foreground">
+                    Технологии
+                  </Button>
+                </Link>
+              )}
+              { Object.keys(user).length > 0 && (
+                <Button variant="hidden" href="/transport" className="text-muted-foreground">
+                  Список транспорта
                 </Button>
-              </Link>
-            )}
-            { Object.keys(user).length > 0 && (
-              <Button variant="hidden" href="/transport" className="text-muted-foreground">
-                Список транспорта
-              </Button>
+              )}
+            </nav>
+          </div>
+          <nav>
+            { Object.keys(user).length !== 0 ? (
+              <Button onClick={() => handleLogout()}>Выйти из аккаунта</Button>
+            ) : (
+              <Button href="/auth">Авторизация</Button>
             )}
           </nav>
         </div>
-        <nav>
-          { Object.keys(user).length !== 0 ? (
-            <Button onClick={() => handleLogout()}>Выйти из аккаунта</Button>
-          ) : (
-            <Button href="/auth">Авторизация</Button>
-          )}
-        </nav>
       </div>
     </header>
   )

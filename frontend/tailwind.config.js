@@ -4,10 +4,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#212121",
-        cardBackground: "#454545",
-        borderColor: "rgb(90, 90, 90)",
-        modalBackground: "rgb(39, 39, 42)",
+        background: {
+          DEFAULT: "hsl(var(--background))"
+        },
+        borderColor: {
+          DEFAULT: "hsl(var(--border))"
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))"
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -24,6 +30,9 @@ module.exports = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        input: {
+          DEFAULT: "hsl(var(--input))"
+        }
       },
       container: {
         center: true,
@@ -35,6 +44,7 @@ module.exports = {
     },
     fontFamily: {
       manrope: ['Manrope'],
+      inter: ['Inter']
     },
   },
   plugins: [],
