@@ -7,8 +7,8 @@ function MainPage() {
     <main className="bg-background min-h-screen text-white relative flex flex-col items-center">
       <selection className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <h1 className="text-3xl leading-[1.1] tracking-normal font-bold font-manrope md:text-4xl lg:text-5xl">
-            Пример приложения, построенного с использованием React 18
+          <h1 className="text-3xl tracking-normal font-bold font-manrope md:text-5xl lg:text-6xl">
+            Приложение, построенное с использованием React 18
           </h1>
           <div className="space-x-4">
             <Button href="/auth">Авторизация</Button>
@@ -19,7 +19,8 @@ function MainPage() {
 
       <selection className="container space-y-6 py-28 md:py-12 md:pt-24 lg:py-36">
         <Element name="technologies">
-          <h2 className="text-center mx-auto max-w-[58rem] font-heading tracking-normal text-3xl md:text-4xl lg:text-5xl font-bold font-manrope">
+          <h2 className="text-center mx-auto max-w-[58rem] font-heading tracking-normal text-3xl md:text-4xl 
+            lg:text-5xl font-bold font-manrope">
             Технологии проекта
           </h2>
         </Element>
