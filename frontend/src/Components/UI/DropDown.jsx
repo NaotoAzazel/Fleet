@@ -5,12 +5,22 @@ import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import "../../Styles/globals.css";
 
+const dropdownRefs = [];
+
 function DropDown({ buttonText, options, selectValue, onSelectChange, buttonVariant = "default" }) {
   const [isActive, setIsActive] = useState(false);
   const menuRef = useRef(null); 
 
+  dropdownRefs.push({ ref: menuRef, setIsActive: setIsActive });
+
   const handleButtonClick = (event) => {
     event.stopPropagation();
+    
+    dropdownRefs.forEach((item) => {
+      if(item.ref !== menuRef && item.ref.current) 
+        item.setIsActive(false);
+    });
+
     setIsActive(!isActive);
   };
 
