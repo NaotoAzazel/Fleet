@@ -3,7 +3,7 @@ import AppRouter from "./Components/AppRouter";
 import "./Styles/globals.css"
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { AuthContext } from "./Components/context/index.js";
-import Header from "./Components/UI/Header.jsx";
+import Navbar from "./Components/UI/Navbar.jsx";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -38,7 +38,7 @@ function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <BrowserRouter>
-        <Header />
+        <Navbar />
         <AppRouter />
       </BrowserRouter>
     </AuthContext.Provider>
