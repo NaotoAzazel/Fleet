@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/index.js';
 import { useContext } from "react";
 import { useIsScreenWidthLessThan } from "../../hooks/useIsScreenWidthLessThan.js";
@@ -15,7 +15,6 @@ const smallScreenWidth = 620;
 
 function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
   const isSmallScreen = useIsScreenWidthLessThan(smallScreenWidth);
 
   const { user, setUser } = useContext(AuthContext);
