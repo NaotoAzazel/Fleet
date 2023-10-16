@@ -46,6 +46,28 @@ class PostController {
       res.status(500).json(err.message);
     }
   }
+
+  async getCategories(req, res) {
+    try {
+      const filteredCategories = await PostService.getCategories();
+      const filteredCategoriesArray = Array.from(filteredCategories);
+
+      return res.json(filteredCategoriesArray);
+    } catch(err) {
+      res.status(500).json(err.message);
+    }
+  }
+
+  async getColors(req, res) {
+    try {
+      const filteredColors = await PostService.getColors();
+      const filteredColorsArray = Array.from(filteredColors);
+
+      return res.json(filteredColorsArray);
+    } catch(err) {
+      res.status(500).json(err.message);
+    }
+  }
 };
 
 export default new PostController();
