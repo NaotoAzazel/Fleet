@@ -16,7 +16,11 @@ function PostsNotFound() {
       <div className="grid gap-3">
         <h1 className="font-bold font-manrope sm:text-3xl 
           tracking-tight mx-auto text-2xl">Не удалось найти посты</h1>
-        <p className="text-muted-foreground mx-auto">Здесь пока нет постов. Попробуйте заменить фильтры, чтобы получить новые результаты</p>
+        <p 
+          className="text-muted-foreground mx-auto text-center"
+        >
+          Здесь пока нет постов. Попробуйте заменить фильтры, чтобы получить новые результаты
+        </p>
       </div>
     </div>
   )
