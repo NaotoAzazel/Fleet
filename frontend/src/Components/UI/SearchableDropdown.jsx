@@ -8,7 +8,8 @@ const ListContainer = forwardRef(({
   isActive, 
   setIsActive, 
   selectValue, 
-  onSelectChange 
+  onSelectChange,
+  setInputValue
 }, ref) => {
   return (
     <ul className={`bg-background mt-1 z-10 p-0 shadow-lg rounded-md absolute border 
@@ -23,6 +24,7 @@ const ListContainer = forwardRef(({
             selectValue={selectValue}
             onSelectChange={onSelectChange}
             setIsActive={setIsActive}
+            inputValueSetter={setInputValue}
           />
         ))}
       </div>    
@@ -73,13 +75,14 @@ function SearchableDropdown({ inputPlaceHolder, options, selectValue, onSelectCh
   return (
     <div className="font-medium">
       <div 
-        className="border border-borderColor h-9 w-full px-3 flex items-center rounded-md"
+        className="border border-borderColor h-10 w-full px-3 flex items-center rounded-md"
         onClick={handleButtonClick}
       >
         <input
           className="w-28 h-11 bg-transparent py-3 disabled:cursor-not-allowed outline-none
             placeholder:text-muted-foreground disabled:opacity-50 text-white"
           placeholder={inputPlaceHolder}
+          value={inputValue}
           onChange={(e) => setInputValue(e.target.value.toLowerCase())}
         />
         <FontAwesomeIcon 
@@ -96,6 +99,7 @@ function SearchableDropdown({ inputPlaceHolder, options, selectValue, onSelectCh
         selectValue={selectValue}
         onSelectChange={onSelectChange}
         ref={menuRef}
+        setInputValue={setInputValue}
       />
     </div>
   )
