@@ -1,4 +1,4 @@
-function Input({ type, placeholder, styles, ...props }) {
+function Input({ type, placeholder = "", styles, ...props }) {
   return (
     <>
       <input 
