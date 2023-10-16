@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 
-export function ListItem({ name, value, selectValue, onSelectChange, setIsActive }) {
+export function ListItem({ name, value, selectValue, onSelectChange, setIsActive, inputValueSetter }) {
   return (
     <li
       className={`py-2 px-4 pr-8 rounded text-white cursor-pointer text-sm hover:bg-accent 
         ${selectValue === value && "font-bold"}`}
       key={value}
       onClick={() => {
+        inputValueSetter(value);
         onSelectChange(value);
         setIsActive(false);
       }}
@@ -46,6 +47,7 @@ export const ListContainer = forwardRef(({
             selectValue={selectValue}
             onSelectChange={onSelectChange}
             setIsActive={setIsActive}
+            inputValueSetter={() => {}}
           />
         ))}
       </div>
