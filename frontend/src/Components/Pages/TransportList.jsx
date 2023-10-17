@@ -12,7 +12,8 @@ import ErrorLoading from '../cards/ErrorLoading';
 import SearchableDropdown from '../UI/SearchableDropdown';
 import { useFetching } from '../../hooks/useFetching';
 import { DropdownMenu } from '../UI/DropdownMenu.jsx';
-import { getPageCount, getPagesArray, addTransport, toFormattedOptions, handleButtonText } from "../../utils/utils.js";
+import { getPageCount, getPagesArray, addTransport, toFormattedOptions, 
+  handleButtonText } from "../../utils/utils.js";
 import { sortOptions, statusOptions } from "../../utils/menuOptions.js";
 import { adminsID } from "../../utils/constants.js";
 
@@ -53,7 +54,7 @@ function TransportList() {
     return posts.map((post) => 
       <MemorizedPosts 
         key={post._id}
-        image={`http://localhost:3001/${post.image}`}
+        image={`data:image/png;base64,${post.image}`}
         title={post.name}
         buttonText={handleButtonText(post.takeBy, user)}
       />

@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import fileUpload from "express-fileupload";
@@ -5,7 +7,7 @@ import cors from "cors";
 import router from "./Routes/router.js";
 
 const PORT = process.env.PORT || 3001;
-const DB_URL = "mongodb+srv://admin:admin@cluster0.dxbaizi.mongodb.net/?retryWrites=true&w=majority";
+const DB_URL = process.env.MONGO_URL;
 
 const app = express();
 
@@ -16,7 +18,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(express.static('static'));
 app.use(fileUpload());
 app.use("/api", router);
 

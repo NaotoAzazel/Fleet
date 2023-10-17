@@ -1,10 +1,9 @@
 import Post from "../Schema/Post.js";
-import FileService from "./FileService.js";
 
 class PostService {
   async create(post, image) {
-    const fileName = FileService.saveFile(image);
-    const createdPost = await Post.create({...post, image: fileName });
+    const imageBase64 = image.data.toString("base64");
+    const createdPost = await Post.create({...post, image: imageBase64 });
     return createdPost;
   }
 
