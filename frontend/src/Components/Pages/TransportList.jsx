@@ -1,6 +1,4 @@
-import { useEffect, useContext, useState, memo, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context';
+import { useEffect, useState, memo, useMemo } from 'react';
 import { Button } from "../UI/Button.jsx"; 
 import Card from "../cards/ProductCard.jsx";
 import PostService from "../../API/PostService.js";
@@ -10,8 +8,9 @@ import Input from '../UI/Input.jsx';
 import PostsNotFound from '../cards/PostsNotFound.jsx';
 import ErrorLoading from '../cards/ErrorLoading';
 import SearchableDropdown from '../UI/SearchableDropdown';
-import { useFetching } from '../../hooks/useFetching';
 import { DropdownMenu } from '../UI/DropdownMenu.jsx';
+import { useFetching } from '../../hooks/useFetching';
+import { useAuth } from '../../hooks/Auth';
 import { getPageCount, getPagesArray, addTransport, toFormattedOptions, 
   handleButtonText } from "../../utils/utils.js";
 import { sortOptions, statusOptions } from "../../utils/menuOptions.js";
@@ -20,9 +19,7 @@ import { adminsID } from "../../utils/constants.js";
 const MemorizedPosts = memo(Card);
 
 function TransportList() {
-  const navigate = useNavigate();
-  
-  const {user, loading} = useContext(AuthContext);
+  const { user } = useAuth();
   const [modalActive, setModalActive] = useState(false);
   const [sortName, setSortName] = useState("");
   const [status, setStatus] = useState("");
@@ -44,23 +41,12 @@ function TransportList() {
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page) => {
     const response = await PostService.getAll(limit, page);
-
-    setPosts(response.data);
     const totalCount = response.headers["x-total-count"];
+    
+    setPosts(response.data);
     setTotalPages(getPageCount(totalCount, limit));
   });
-
-  const memorizedPosts = useMemo(() => {
-    return posts.map((post) => 
-      <MemorizedPosts 
-        key={post._id}
-        image={`data:image/png;base64,${post.image}`}
-        title={post.name}
-        buttonText={handleButtonText(post.takeBy, user)}
-      />
-    ) 
-  });
-
+  
   const [fetchColors, isColorsLoading] = useFetching(async() => {
     const colors = await PostService.getColors();
     const formattedColors = toFormattedOptions(colors.data);
@@ -80,19 +66,27 @@ function TransportList() {
   const userID = user.user_metadata?.provider_id;
 
   useEffect(() => {
-    if (Object.keys(user).length === 0) {
-      navigate("/auth");
-    }
-
     fetchPosts(limit, page);
     fetchColors();
     fetchCategories();
-  }, [!loading && page]);
+  }, [page]);
+
 
   function changePage(page) {
     setPage(page);
     fetchPosts(limit, page);
   }
+
+  const memorizedPosts = useMemo(() => {
+    return posts.map((post) => 
+      <MemorizedPosts 
+        key={post._id}
+        image={`data:image/png;base64,${post.image}`}
+        title={post.name}
+        buttonText={handleButtonText(post.takeBy, user)}
+      />
+    ) 
+  });
 
   return (
     <main className="flex-1 min-h-screen text-white bg-background">

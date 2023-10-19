@@ -1,8 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { Button } from "../Button.jsx";
 import { Link } from "react-scroll";
+import { useAuth } from "../../../hooks/Auth.jsx";
 
-function MainHeader({ user, handleLogout }) {
+function MainHeader() {
+  const { user, signOut } = useAuth();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -19,7 +21,7 @@ function MainHeader({ user, handleLogout }) {
               </Button>
             </Link>
           )}
-          { Object.keys(user).length > 0 && (
+          {user && (
             <Button variant="hidden" href="/transport" className="text-muted-foreground">
               Список транспорта
             </Button>
@@ -27,8 +29,8 @@ function MainHeader({ user, handleLogout }) {
         </nav>
       </div>
         <nav>
-          { Object.keys(user).length !== 0 ? (
-            <Button onClick={() => handleLogout()}>Выйти из аккаунта</Button>
+          {user ? (
+            <Button onClick={signOut}>Выйти из аккаунта</Button>
           ) : (
             <Button href="/auth">Авторизация</Button>
           )}
