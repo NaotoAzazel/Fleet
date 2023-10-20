@@ -16,9 +16,9 @@ class PostController {
       let posts = await PostService.getAll();
 
       if(filter) 
-        posts = PostService.filterByOption(filter);
+        posts = PostService.filterByOption(filter, posts);
       if(status) 
-        posts = PostService.filterByStatus(status);
+        posts = PostService.filterByStatus(status, posts);
 
       const totalCount = Object.keys(posts).length;
       res.set("x-total-count", totalCount.toString());

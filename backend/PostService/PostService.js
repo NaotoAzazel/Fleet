@@ -25,9 +25,7 @@ class PostService {
     return posts.slice(startIndex, endIndex);;
   }
 
-  filterByStatus(status) {
-    let posts = this.getAll();
-
+  filterByStatus(status, posts) {
     posts = posts.filter((field) => {
       switch(status) {
         case "avaible":
@@ -42,9 +40,7 @@ class PostService {
     return posts;
   }
 
-  filterByOption(sortOption) {
-    let posts = this.getAll();
-
+  filterByOption(sortOption, posts) {
     if(sortOption == "alphabet") {
       posts = posts.sort((a, b) => a.name.localeCompare(b.name));
     } else {
