@@ -1,8 +1,7 @@
 import { useEffect, useState, memo, useMemo } from 'react';
 import { Button } from "../UI/Button.jsx"; 
-import Card from "../cards/ProductCard.jsx";
+import { ProductCard, SkeletonCard } from "../cards/ProductCard.jsx";
 import PostService from "../../API/PostService.js";
-import SkeletonCard from '../cards/SkeletonCard';
 import Modal from '../UI/Modal.jsx';
 import Input from '../UI/Input.jsx';
 import PostsNotFound from '../cards/PostsNotFound.jsx';
@@ -17,11 +16,12 @@ import { getPageCount, getPagesArray, addTransport, toFormattedOptions,
 import { sortOptions } from "../../utils/menuOptions.js";
 import { adminsID } from "../../utils/constants.js";
 
-const MemorizedPosts = memo(Card);
+const MemorizedPosts = memo(ProductCard);
 
 function TransportList() {
   const { user } = useAuth();
   const statusOptions = useStatusOptions();
+  const isFetchPostsCalled = useState(false);
   const [modalActive, setModalActive] = useState(false);
   const [sortName, setSortName] = useState("");
   const [status, setStatus] = useState("");
@@ -68,10 +68,13 @@ function TransportList() {
   const userID = user.user_metadata?.provider_id;
 
   useEffect(() => {
-    fetchPosts(limit, page);
-    fetchColors();
-    fetchCategories();
-  }, [page || limit]);
+    if(!isFetchPostsCalled?.value) {
+      fetchPosts(limit, page);
+      fetchColors();
+      fetchCategories();
+      isFetchPostsCalled.value = true;
+    }
+  }, [page]);
 
   useEffect(() => {
     if (status || sortName) {
@@ -147,7 +150,7 @@ function TransportList() {
           )}
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {isPostsLoading && isColorsLoading && isCategoriesLoading
+            {isPostsLoading
               ? <SkeletonCard cards={8}/>
               : <>{memorizedPosts}</>
             }
