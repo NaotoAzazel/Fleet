@@ -11,15 +11,17 @@ import SearchableDropdown from '../UI/SearchableDropdown';
 import { DropdownMenu } from '../UI/DropdownMenu.jsx';
 import { useFetching } from '../../hooks/useFetching';
 import { useAuth } from '../../hooks/Auth';
+import useStatusOptions from "../../hooks/useStatusOptions.js"
 import { getPageCount, getPagesArray, addTransport, toFormattedOptions, 
   handleButtonText } from "../../utils/utils.js";
-import { sortOptions, statusOptions } from "../../utils/menuOptions.js";
+import { sortOptions } from "../../utils/menuOptions.js";
 import { adminsID } from "../../utils/constants.js";
 
 const MemorizedPosts = memo(Card);
 
 function TransportList() {
   const { user } = useAuth();
+  const statusOptions = useStatusOptions();
   const [modalActive, setModalActive] = useState(false);
   const [sortName, setSortName] = useState("");
   const [status, setStatus] = useState("");
@@ -39,8 +41,8 @@ function TransportList() {
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
 
-  const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page) => {
-    const response = await PostService.getAll(limit, page);
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async(limit, page, sortName, status) => {
+    const response = await PostService.getAll(limit, page, sortName, status);
     const totalCount = response.headers["x-total-count"];
     
     setPosts(response.data);
@@ -69,12 +71,17 @@ function TransportList() {
     fetchPosts(limit, page);
     fetchColors();
     fetchCategories();
-  }, [page]);
+  }, [page || limit]);
 
+  useEffect(() => {
+    if (status || sortName) {
+      fetchPosts(limit, page, sortName, status);
+    }
+  }, [sortName, status]);
 
   function changePage(page) {
     setPage(page);
-    fetchPosts(limit, page);
+    fetchPosts(limit, page, sortName, status);
   }
 
   const memorizedPosts = useMemo(() => {
@@ -100,7 +107,8 @@ function TransportList() {
               selectValue={sortName}
               onSelectChange={setSortName}
               title="Сортировка"
-              options={sortOptions} 
+              options={[...sortOptions, ...categories]}
+              isLoading={isPostsLoading}
             />
 
             <DropdownMenu 
@@ -111,6 +119,7 @@ function TransportList() {
               buttonVariant="outline" 
               isSearchable={true} 
               inputPlaceHolder="Введите статус"
+              isLoading={isPostsLoading}
             />
 
             {adminsID.has(userID) && (
@@ -118,6 +127,7 @@ function TransportList() {
                 size="sm"
                 onClick={() => setModalActive(true)}
                 className="ml-2"
+                isLoading={isPostsLoading}
               >
                 Добавить траспорт
               </Button>
@@ -137,7 +147,7 @@ function TransportList() {
           )}
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {isPostsLoading && isColorsLoading && isCategoriesLoading && posts.length
+            {isPostsLoading && isColorsLoading && isCategoriesLoading
               ? <SkeletonCard cards={8}/>
               : <>{memorizedPosts}</>
             }
@@ -216,7 +226,7 @@ function TransportList() {
             <Button 
               onClick={() => {
                 addTransport(name, color, plate, category, file)
-                  .then(setModalActive(false), fetchPosts(limit, page));
+                  .then(setModalActive(false), fetchPosts(limit, page, sortName, status));
               }} 
               size="sm"
             >

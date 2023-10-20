@@ -82,8 +82,11 @@ function SearchableDropdown({ inputPlaceHolder, options, selectValue, onSelectCh
           className="w-28 h-11 bg-transparent py-3 disabled:cursor-not-allowed outline-none
             placeholder:text-muted-foreground disabled:opacity-50 text-white"
           placeholder={inputPlaceHolder}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+          value={selectValue}
+          onChange={(e) => {
+            setInputValue(e.target.value.toLowerCase());
+            onSelectChange(e.target.value);
+          }}
         />
         <FontAwesomeIcon 
           icon={isActive ? faChevronUp : faChevronDown} 

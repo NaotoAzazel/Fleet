@@ -18,12 +18,40 @@ class PostService {
     return post;
   }
 
-  async getPostsByLimitAndPage(limit, page) {
-    const posts = await this.getAll();
+  async getPostsByLimitAndPage(limit, page, posts) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
     return posts.slice(startIndex, endIndex);;
+  }
+
+  filterByStatus(status) {
+    let posts = this.getAll();
+
+    posts = posts.filter((field) => {
+      switch(status) {
+        case "avaible":
+          return !field.takeBy.length
+        case "unavaible": 
+          return field.takeBy.length
+        default: 
+          return field.takeBy === status;
+      }
+    })
+  
+    return posts;
+  }
+
+  filterByOption(sortOption) {
+    let posts = this.getAll();
+
+    if(sortOption == "alphabet") {
+      posts = posts.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      posts = posts.filter((field) => field.category === sortOption);
+    }
+  
+    return posts;
   }
 
   async update(post) {

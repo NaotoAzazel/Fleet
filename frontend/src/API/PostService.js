@@ -1,11 +1,13 @@
 import axios from "axios";
 
 export default class PostService {
-  static async getAll(limit = 8, page = 1) {
+  static async getAll(limit = 8, page = 1, filter = "", status = "" ) {
     const response = await axios.get(`http://localhost:3001/api/transports`, {
       params: {
-        page: page,
-        limit: limit
+        page,
+        limit,
+        filter,
+        status
       }
     });
 
