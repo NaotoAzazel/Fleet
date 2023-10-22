@@ -59,8 +59,8 @@ function MainPage() {
 
       <SelectionContainer>
         <Element name="technologies">
-          <h2 className="text-center mx-auto max-w-[58rem] font-heading tracking-normal text-3xl md:text-4xl 
-            lg:text-5xl font-bold font-manrope">
+          <h2 className="text-center mx-auto max-w-[58rem] tracking-normal text-3xl md:text-4xl 
+            lg:text-5xl font-semibold font-manrope">
             Технологии проекта
           </h2>
         </Element>
@@ -85,7 +85,7 @@ function MainPage() {
 
       <SelectionContainer>
         <h2 className="text-center mx-auto max-w-[58rem] font-heading tracking-normal text-3xl md:text-4xl 
-          lg:text-5xl font-bold font-manrope">
+          lg:text-5xl font-semibold font-manrope">
           Доступный транспорт
         </h2>
         <div className="flex flex-col">

@@ -14,6 +14,11 @@ export default class PostService {
     return response;
   }
 
+  static async getOne(id) {
+    const response = await axios.get(`http://localhost:3001/api/transport/${id}`);
+    return response;
+  }
+
   static async getCategories() {
     const response = await axios.get(`http://localhost:3001/api/categories`);
     return response;

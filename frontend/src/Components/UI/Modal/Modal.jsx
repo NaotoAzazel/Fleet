@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import "../../Styles/globals.css";
+import "../../../Styles/globals.css";
 
 const modalRootElement = document.getElementById("portal");
 

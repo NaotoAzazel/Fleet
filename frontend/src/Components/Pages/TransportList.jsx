@@ -2,8 +2,9 @@ import { useEffect, useState, memo, useMemo } from 'react';
 import { Button } from "../UI/Button.jsx"; 
 import { ProductCard, SkeletonCard } from "../cards/ProductCard.jsx";
 import PostService from "../../API/PostService.js";
-import Modal from '../UI/Modal.jsx';
+import Modal from '../UI/Modal/Modal.jsx';
 import Input from '../UI/Input.jsx';
+import InformationModal from '../UI/Modal/InformationModal.jsx';
 import PostsNotFound from '../cards/PostsNotFound.jsx';
 import ErrorLoading from '../cards/ErrorLoading';
 import SearchableDropdown from '../UI/SearchableDropdown';
@@ -22,13 +23,16 @@ function TransportList() {
   const { user } = useAuth();
   const statusOptions = useStatusOptions();
   const isFetchPostsCalled = useState(false);
-  const [modalActive, setModalActive] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isInformationModalActive, setIsInformationModalActive] = useState(false);
   const [sortName, setSortName] = useState("");
   const [status, setStatus] = useState("");
   const [pagesButtons, setPagesButtons] = useState([]);
+  const [currentId, setCurrentId] = useState("");
 
   // APIs
   const [posts, setPosts] = useState([]);
+  const [post, setPost] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
@@ -48,6 +52,11 @@ function TransportList() {
     
     setPosts(response.data);
     setTotalPages(getPageCount(totalCount, limit));
+  });
+
+  const [fetchPost, isPostLoading] = useFetching(async(id) => {
+    const response = await PostService.getOne(id);
+    setPost(response.data);
   });
 
   const [fetchColors, isColorsLoading] = useFetching(async() => {
@@ -86,7 +95,12 @@ function TransportList() {
   useEffect(() => {
     const posts = getFormattedPagesArray(pagesArray, page);
     setPagesButtons(posts);
-  }, [page, totalPages])
+  }, [page, totalPages]);
+
+  useEffect(() => {
+    if(currentId.length) 
+      fetchPost(currentId);
+  }, [currentId]);
 
   const changePage = (page) => {
     setPage(page);
@@ -100,9 +114,14 @@ function TransportList() {
         image={`data:image/png;base64,${post.image}`}
         title={post.name}
         buttonText={handleButtonText(post.takeBy, user)}
+        id={post._id}
+        setIsAboutClick={setIsInformationModalActive}
+        setCurrentId={setCurrentId}
       />
     ) 
   });
+
+  const memoizedPost = useMemo(() => post, [post]);
 
   return (
     <main className="flex-1 min-h-screen text-white bg-background">
@@ -134,7 +153,7 @@ function TransportList() {
             {adminsID.has(userID) && (
               <Button 
                 size="sm"
-                onClick={() => setModalActive(true)}
+                onClick={() => setIsModalActive(true)}
                 className="ml-2"
                 isLoading={isPostsLoading}
               >
@@ -160,6 +179,12 @@ function TransportList() {
               ? <SkeletonCard cards={8}/>
               : <>{memorizedPosts}</>
             }
+            <Modal active={isInformationModalActive} setActive={setIsInformationModalActive}>
+              {isPostLoading 
+                ? <h1 className="text-white px-4 font-semibold font-manrope">Загрузка...</h1>
+                : <InformationModal post={memoizedPost} setIsInformationModalActive={setIsInformationModalActive} />
+              }
+            </Modal>
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-2">
@@ -180,9 +205,9 @@ function TransportList() {
           </div>
         </div>
         
-        <Modal active={modalActive} setActive={setModalActive}>
+        <Modal active={isModalActive} setActive={setIsModalActive}>
           <div className="flex justify-between px-4">
-            <h1 className="text-white text-2xl font-bold font-manrope">Добавить транспорт</h1>
+            <h1 className="text-white text-2xl font-semibold font-manrope">Добавить транспорт</h1>
           </div>
 
           <div className="flex items-center space-x-2 mt-4 px-4">
@@ -227,7 +252,7 @@ function TransportList() {
             <Button 
               size="sm" 
               variant="outline"
-              onClick={() => setModalActive(false)} 
+              onClick={() => setIsModalActive(false)} 
               className="text-white"
             >
               Отмена
@@ -236,7 +261,7 @@ function TransportList() {
             <Button 
               onClick={() => {
                 addTransport(name, color, plate, category, file)
-                  .then(setModalActive(false), fetchPosts(limit, page, sortName, status));
+                  .then(setIsModalActive(false), fetchPosts(limit, page, sortName, status));
               }} 
               size="sm"
             >
