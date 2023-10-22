@@ -15,6 +15,31 @@ export function getPagesArray(totalPages) {
   }
 
   return result;
+};
+
+export function getFormattedPagesArray(pagesArray, page) {
+  let pages = [...pagesArray];
+  const pagesArrayLength = pagesArray.length;
+  const dots = "...";
+
+  if(pagesArrayLength < 7) 
+    return pages;
+
+  if(page >= 1 && page <= 3) {
+    pages = [1, 2, 3, 4, dots, pagesArrayLength];
+  } else if(page === 4) {
+    const sliced = pages.slice(0, 5);
+    pages = [...sliced, dots, pagesArrayLength];
+  } else if (page > 4 && page < pagesArrayLength - 2) {
+    const sliced1 = pages.slice(page - 2, page);
+    const sliced2 = pages.slice(page, page + 1);
+    pages = ([1, dots, ...sliced1, ...sliced2, dots, pagesArrayLength]);
+  } else if (page > pagesArrayLength - 3) {                 
+    const sliced = pages.slice(pagesArrayLength - 4);
+    pages = ([1, dots, ...sliced]);
+  }
+
+  return pages;
 }
 
 export async function addTransport(name, color, plate, category, file) {

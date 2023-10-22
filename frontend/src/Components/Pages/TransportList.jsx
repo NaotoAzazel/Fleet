@@ -12,7 +12,7 @@ import { useFetching } from '../../hooks/useFetching';
 import { useAuth } from '../../hooks/Auth';
 import useStatusOptions from "../../hooks/useStatusOptions.js"
 import { getPageCount, getPagesArray, addTransport, toFormattedOptions, 
-  handleButtonText } from "../../utils/utils.js";
+  handleButtonText, getFormattedPagesArray } from "../../utils/utils.js";
 import { sortOptions } from "../../utils/menuOptions.js";
 import { adminsID } from "../../utils/constants.js";
 
@@ -25,6 +25,7 @@ function TransportList() {
   const [modalActive, setModalActive] = useState(false);
   const [sortName, setSortName] = useState("");
   const [status, setStatus] = useState("");
+  const [pagesButtons, setPagesButtons] = useState([]);
 
   // APIs
   const [posts, setPosts] = useState([]);
@@ -48,7 +49,7 @@ function TransportList() {
     setPosts(response.data);
     setTotalPages(getPageCount(totalCount, limit));
   });
-  
+
   const [fetchColors, isColorsLoading] = useFetching(async() => {
     const colors = await PostService.getColors();
     const formattedColors = toFormattedOptions(colors.data);
@@ -63,26 +64,31 @@ function TransportList() {
     setCategories(formattedCategories);
   });
 
-  let pagesArray = getPagesArray(totalPages);
-
+  const pagesArray = getPagesArray(totalPages);
   const userID = user.user_metadata?.provider_id;
 
   useEffect(() => {
     if(!isFetchPostsCalled?.value) {
-      fetchPosts(limit, page);
-      fetchColors();
+      fetchPosts(limit, page, sortName, status);
       fetchCategories();
+      fetchColors();
       isFetchPostsCalled.value = true;
     }
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     if (status || sortName) {
-      fetchPosts(limit, page, sortName, status);
+      setPage(1);
+      fetchPosts(limit, 1, sortName, status);
     }
   }, [sortName, status]);
 
-  function changePage(page) {
+  useEffect(() => {
+    const posts = getFormattedPagesArray(pagesArray, page);
+    setPagesButtons(posts);
+  }, [page, totalPages])
+
+  const changePage = (page) => {
     setPage(page);
     fetchPosts(limit, page, sortName, status);
   }
@@ -158,13 +164,14 @@ function TransportList() {
           
           <div className="flex flex-wrap items-center justify-center gap-2">
             {!isPostsLoading && (
-              pagesArray.map(pageNumber => 
+              pagesButtons.map(pageNumber => 
                 <Button 
                   onClick={() => changePage(pageNumber)}
                   variant={page === pageNumber ? "default" : "outline"}
                   size="sm" 
                   key={pageNumber}
                   className="h-8 w-8"
+                  isLoading={pageNumber === "..." && true}
                 >
                   {pageNumber}
                 </Button>  
