@@ -52,7 +52,7 @@ function MainPage() {
           </h1>
           <div className="space-x-4">
             <Button href="/auth">Авторизация</Button>
-            <Button variant="outline" href="/asd">GitHub</Button>
+            <Button variant="outline" href="https://github.com/NaotoAzazel/Fleet">GitHub</Button>
           </div>
         </div>
       </SelectionContainer>

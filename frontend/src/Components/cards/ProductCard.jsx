@@ -1,6 +1,7 @@
 import { Button } from "../UI/Button.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import PostService from "../../API/PostService.js";
 import "../../Styles/globals.css";
 
 export function SkeletonCard({ cards }) {
@@ -56,7 +57,35 @@ export function SlicedProductCard({ image, title }) {
   )
 }
 
-export function ProductCard({ image, title, buttonText, setIsAboutClick, setCurrentId, id }) {
+export function ProductCard({ 
+  fullName, 
+  image, 
+  title, 
+  buttonText, 
+  setIsAboutClick, 
+  setCurrentId, 
+  id,
+  setIsPostsUpdate
+}) {
+  const handleButtonClick = async(status) => {
+    const updatedPost = { _id: id, takeBy: "" };
+
+    switch(status) {
+      case "Забрать": {
+        updatedPost.takeBy = fullName;
+        break;
+      }
+      
+      case "Вернуть": {
+        updatedPost.takeBy = "";
+        break;
+      }
+    }
+
+    await PostService.update(updatedPost);
+    setIsPostsUpdate(true);
+  }
+
   return (
     <div className="border border-borderColor overflow-hidden rounded-[10px]">
       <div className="flex flex-col border-borderColor p-0">
@@ -91,8 +120,11 @@ export function ProductCard({ image, title, buttonText, setIsAboutClick, setCurr
           >
             Подробнее
           </Button>
-          <Button size="sm" className={`w-full 
-            ${buttonText === "Недоступна" && "cursor-not-allowed hover:bg-white"}`}
+          <Button 
+            size="sm" 
+            className="w-full"
+            isLoading={buttonText === "Недоступна"}
+            onClick={() => handleButtonClick(buttonText)}
           >
             {buttonText}
           </Button>

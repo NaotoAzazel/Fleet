@@ -25,6 +25,7 @@ function TransportList() {
   const isFetchPostsCalled = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
   const [isInformationModalActive, setIsInformationModalActive] = useState(false);
+  const [isPostsUpdate, setIsPostsUpdate] = useState(false);
   const [sortName, setSortName] = useState("");
   const [status, setStatus] = useState("");
   const [pagesButtons, setPagesButtons] = useState([]);
@@ -59,14 +60,14 @@ function TransportList() {
     setPost(response.data);
   });
 
-  const [fetchColors, isColorsLoading] = useFetching(async() => {
+  const [fetchColors] = useFetching(async() => {
     const colors = await PostService.getColors();
     const formattedColors = toFormattedOptions(colors.data);
     
     setColors(formattedColors);
   });
   
-  const [fetchCategories, isCategoriesLoading] = useFetching(async() => {
+  const [fetchCategories] = useFetching(async() => {
     const categories = await PostService.getCategories();
     const formattedCategories = toFormattedOptions(categories.data);
 
@@ -84,6 +85,13 @@ function TransportList() {
       isFetchPostsCalled.value = true;
     }
   }, []);
+  
+  useEffect(() => {
+    if(isPostsUpdate) {
+      fetchPosts(limit, page, sortName, status);
+      setIsPostsUpdate(false);
+    }
+  }, [isPostsUpdate])
 
   useEffect(() => {
     if (status || sortName) {
@@ -111,15 +119,17 @@ function TransportList() {
     return posts.map((post) => 
       <MemorizedPosts 
         key={post._id}
+        fullName={user.user_metadata?.full_name}
         image={`data:image/png;base64,${post.image}`}
         title={post.name}
-        buttonText={handleButtonText(post.takeBy, user)}
+        buttonText={handleButtonText(post.takeBy, user.user_metadata?.full_name)}
         id={post._id}
         setIsAboutClick={setIsInformationModalActive}
         setCurrentId={setCurrentId}
+        setIsPostsUpdate={setIsPostsUpdate}
       />
     ) 
-  });
+  }, [posts, user, sortName, status]);
 
   const memoizedPost = useMemo(() => post, [post]);
 

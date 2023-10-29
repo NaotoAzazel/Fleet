@@ -63,8 +63,8 @@ export function toFormattedOptions(array) {
   })
 }
 
-export function handleButtonText(nickName, userData) {
-  if(nickName === userData?.user_metadata?.full_name)
+export function handleButtonText(nickName, userName) {
+  if(nickName === userName)
     return "Вернуть";
 
   if(nickName.length) 

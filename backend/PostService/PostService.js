@@ -52,7 +52,8 @@ class PostService {
 
   async update(post) {
     if(!post._id) throw new Error("Не указан ID");
-    const updatedPost = await Post.findByIdAndUpdate(post._id, post, { new: true });
+    const updatedData = { takeBy: post.takeBy };
+    const updatedPost = await Post.findByIdAndUpdate(post._id, updatedData, { new: true });
     return updatedPost;
   }
 
