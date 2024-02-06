@@ -31,10 +31,10 @@ const buttonVariants = cva(
   }
 )
 
-function Button({ className, children, size, variant, href, ...props }) {
+function Button({ className, children, size, variant, href, isLoading = false, ...props }) {
   return href 
-    ? <Link to={href} className={cn(buttonVariants({ variant, size, className }))}>{children}</Link>
-    : <button className={cn(buttonVariants({ variant, size, className }))} {...props}>{children}</button>
+    ? <Link to={href} disabled={isLoading} className={cn(buttonVariants({ variant, size, className }))}>{children}</Link>
+    : <button disabled={isLoading} className={cn(buttonVariants({ variant, size, className }))} {...props}>{children}</button>
 }
 
 export { Button, buttonVariants };

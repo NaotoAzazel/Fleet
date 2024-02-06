@@ -1,38 +1,24 @@
 import { Route, Routes } from "react-router-dom";
-import { routes } from "../Router/Router.js"
+import PrivateRoute from "../Router/PrivateRoute.jsx";
+import AuthRoute from "../Router/AuthRoute.jsx";
+import MainPage from "./Pages/MainPage.jsx";
 import PageNotFound from "./Pages/PageNotFound.jsx";
-import { Helmet } from "react-helmet";
-import { useMemo } from "react";
+import AuthPage from "./Pages/AuthPage.jsx";
+import TransportList from "./Pages/TransportList.jsx";
 
 function AppRouter() {
-  const memoizedRoutes = useMemo(() => {
-    return routes.map(route => ({
-      ...route,
-      element: (
-        <>
-          <Helmet>
-            <title>{route.pageTitle}</title>
-          </Helmet>
-          <route.element />
-        </>
-      )
-    }));
-  }, [routes]);
-
   return (
     <Routes>
-      {memoizedRoutes.map(route => 
-        <Route 
-          id={route.path}
-          element={route.element} 
-          path={route.path}
-          exact={route.exact}
-          key={route.path}
-        />
-      )}
+      <Route element={<PrivateRoute />}>
+        <Route path="/transport" element={<TransportList />} />
+      </Route>
+      <Route path="/" element={<MainPage />} />
+      <Route element={<AuthRoute />}>
+        <Route path="/auth" element={<AuthPage />} />
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
-  );
+  )
 }
 
 export default AppRouter

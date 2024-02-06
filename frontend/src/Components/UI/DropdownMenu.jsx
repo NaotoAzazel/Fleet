@@ -48,6 +48,7 @@ export const ListContainer = forwardRef(({
             onSelectChange={onSelectChange}
             setIsActive={setIsActive}
             inputValueSetter={() => {}}
+            key={value}
           />
         ))}
       </div>
@@ -88,7 +89,8 @@ export function DropdownMenu({
   onSelectChange, 
   buttonVariant = "default", 
   isSearchable = false,
-  inputPlaceHolder 
+  inputPlaceHolder,
+  isLoading
 }) {
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -133,6 +135,7 @@ export function DropdownMenu({
         className="max-w-[140px]"
         size="sm"
         onClick={handleButtonClick}
+        isLoading={isLoading}
       >
         <p className="truncate">{title}</p>
         <FontAwesomeIcon icon={isActive ? faChevronUp : faChevronDown} className="ml-2" />

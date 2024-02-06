@@ -12,17 +12,22 @@ class PostController {
 
   async getAll(req, res) {
     try {
-      const { limit, page } = req.query;
-      const allPosts = await PostService.getAll();
-      const totalCount = Object.keys(allPosts).length;
+      const { limit, page, filter, status } = req.query;
+      let posts = await PostService.getAll();
 
+      if(filter) 
+        posts = PostService.filterByOption(filter, posts);
+      if(status) 
+        posts = PostService.filterByStatus(status, posts);
+
+      const totalCount = Object.keys(posts).length;
       res.set("x-total-count", totalCount.toString());
 
       if(!limit || !page) {
-        return res.json(allPosts);
+        return res.json(posts);
       }
 
-      const slicedPosts = await PostService.getPostsByLimitAndPage(parseInt(limit), parseInt(page));
+      const slicedPosts = await PostService.getPostsByLimitAndPage(parseInt(limit), parseInt(page), posts);
       return res.json(slicedPosts);
     } catch(err) {
       res.status(500).json(err.message);
@@ -37,7 +42,7 @@ class PostController {
       res.status(500).json(err.message);
     }
   }
-
+ 
   async update(req, res) {
     try {
       const updatedPost = await PostService.update(req.body);

@@ -18,17 +18,42 @@ class PostService {
     return post;
   }
 
-  async getPostsByLimitAndPage(limit, page) {
-    const posts = await this.getAll();
+  async getPostsByLimitAndPage(limit, page, posts) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
     return posts.slice(startIndex, endIndex);;
   }
 
+  filterByStatus(status, posts) {
+    posts = posts.filter((field) => {
+      switch(status) {
+        case "avaible":
+          return !field.takeBy.length
+        case "unavaible": 
+          return field.takeBy.length
+        default: 
+          return field.takeBy === status;
+      }
+    })
+  
+    return posts;
+  }
+
+  filterByOption(sortOption, posts) {
+    if(sortOption == "alphabet") {
+      posts = posts.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      posts = posts.filter((field) => field.category === sortOption);
+    }
+  
+    return posts;
+  }
+
   async update(post) {
     if(!post._id) throw new Error("Не указан ID");
-    const updatedPost = await Post.findByIdAndUpdate(post._id, post, { new: true });
+    const updatedData = { takeBy: post.takeBy };
+    const updatedPost = await Post.findByIdAndUpdate(post._id, updatedData, { new: true });
     return updatedPost;
   }
 

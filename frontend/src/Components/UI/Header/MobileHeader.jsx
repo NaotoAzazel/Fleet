@@ -5,6 +5,7 @@ import { Link } from "react-scroll";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { useAuth } from "../../../hooks/Auth.jsx"
 
 function Popover({ user, setActive }) {
   const location = useLocation();
@@ -14,7 +15,7 @@ function Popover({ user, setActive }) {
     setActive(false);
   }
 
-  return(
+  return (
     <div className="fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max 
       overflow-auto p-6 pb-32 shadow-md sm:hidden"
     >
@@ -44,7 +45,7 @@ function Popover({ user, setActive }) {
               </Button>
             </Link>
           )}
-          {Object.keys(user).length != 0 && (
+          {user && (
             <Button 
               variant="link"
               href="/transport" 
@@ -60,7 +61,8 @@ function Popover({ user, setActive }) {
   )
 }
 
-function MobileHeader({ user, handleLogout }) {
+function MobileHeader() {
+  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -77,8 +79,8 @@ function MobileHeader({ user, handleLogout }) {
         {isMenuOpen && <Popover user={user} setActive={setIsMenuOpen} />}
       </div>
         <nav>
-          { Object.keys(user).length !== 0 ? (
-            <Button onClick={() => handleLogout()}>Выйти из аккаунта</Button>
+          {user ? (
+            <Button onClick={signOut}>Выйти из аккаунта</Button>
           ) : (
             <Button href="/auth">Авторизация</Button>
           )}
