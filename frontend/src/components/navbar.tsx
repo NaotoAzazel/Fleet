@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 import MobileNav from "./mobile-nav";
 import AuthButton from "./auth-button";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Navbar() {
   const user = null;
@@ -28,7 +29,8 @@ export default function Navbar() {
             </div>
 
             <div className="ml-auto items-center">
-              <div className="lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+              <div className="flex lg:flex-1 lg:items-center lg:justify-end space-x-2">
+                <ModeToggle />
                 <AuthButton user={user}/>
               </div>
             </div>

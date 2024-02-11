@@ -6,7 +6,10 @@ import {
   Menu,
   Database,
   Component,
-  UserRoundCheck
+  UserRoundCheck,
+  Sun,
+  Moon,
+  Laptop
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -18,5 +21,8 @@ export const Icons = {
   menu: Menu,
   database: Database,
   component: Component,
-  auth: UserRoundCheck
+  auth: UserRoundCheck,
+  sun: Sun,
+  moon: Moon,
+  laptop: Laptop
 };
